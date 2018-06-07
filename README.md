@@ -18,6 +18,8 @@ En el archivo configBeacons.js se muestra en detalle como se logran estas funcio
 
 ### Ranging
 
+Hay 1 eventos a considerar: didRangeBeaconsInRegion.
+
 A partir del Ranging podemos obtener los siguientes datos:
 
 | Datos         | Tipo          |
@@ -33,6 +35,8 @@ A partir del Ranging podemos obtener los siguientes datos:
 ### Monitoring
 
 Hay 3 eventos a considerar: didEnterRegion, didExitRegion, didDetermineStateForRegion.
+
+didDetermineStateForRegion posee dos posibles resultados: "CLRegionStateInside" y "CLRegionStateOutside" 
 
 Tarda aproximadamente 10 segundos en detectar que se salió de la región. Al entrar, la detección es instantanea.
 
@@ -57,7 +61,12 @@ phonegap platform add android
 phonegap build android --verbose
 ```
 
-Luego de que termine esto, encontraremos la apk en la siguiente ruta: _/platform/android/app/build/outputs/apk/debug/app-debug.apk_
+Luego de que termine esto, encontraremos la apk en la siguiente ruta: 
+```
+/platform/android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+
 
 ## Uso
 Asegurarse que los beacons tengan encendido el modo ibeacon. Para comprobarlo se debe acceder a la configuracion del beacon desde la app de estimote.
