@@ -1,7 +1,9 @@
 //Genero la pantalla de Monitoreo
-showMonitor = function(){
+showMonitor = function () {
     refresh()
-    document.getElementById("title").innerText = "Monitor Beacons"
+    document
+        .getElementById("title")
+        .innerText = "Monitor Beacons"
     var space = document.getElementById("main")
     var button = createButton('Start Monitoring', 'start', startMonitoring)
     space.appendChild(button)
@@ -15,7 +17,18 @@ startMonitoring = function () {
     var space = document.getElementById("main")
     var button = createButton('Stop Monitoring', 'stop', stopMonitoring)
     space.appendChild(button)
+
     var div = document.createElement('div')
+    div.className = "center"
+
+    var image = document.createElement('img')
+    image.setAttribute("src", "img/beacon.png");
+    image.id = "beaconImg"
+    image.className = "out"
+    div.appendChild(image)
+    space.appendChild(div)
+
+    div = document.createElement('div')
     div.id = "results"
     space.appendChild(div)
 
@@ -39,5 +52,5 @@ stopMonitoring = function () {
         })
         .done();
 
-    showRange()
+    showMonitor()
 }

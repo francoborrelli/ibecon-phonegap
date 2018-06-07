@@ -21,18 +21,27 @@ var createBeaconRegion = function () {
 }
 
 var monitorShow = function (result) {
-    if (result.state) {
-        var div = document.createElement('div')
-        div.className = "center"
+    var inside = result.state === "CLRegionStateInside"
 
-        var h3 = document.createElement('h3')
-        h3.innerText = result.state
-        div.appendChild(h3)
-
-        var results = document.getElementById("results")
-        results.innerHTML = ""
-        results.appendChild(div)
+    var image = document.getElementById('beaconImg')
+    if (inside) {
+        image.className = ""
+    } else {
+        image.className = "out"
     }
+
+    var div = document.createElement('div')
+    div.className = "center"
+    var h3 = document.createElement('h3')
+    h3.innerText = inside
+        ? "Inside Region"
+        : "Outside Region"
+        
+    div.appendChild(h3)
+
+    var results = document.getElementById("results")
+    results.innerHTML = ""
+    results.appendChild(div)
 };
 
 //A partir del uuid obtengo el nombre del beacon.
