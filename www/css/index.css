@@ -15,6 +15,10 @@ body{
     padding-top: 32px;
 }
 
+.center {
+    text-align: center;
+}
+
 .dot {
     border: 1px solid;
     height: 10px;

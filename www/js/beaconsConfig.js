@@ -1,7 +1,8 @@
 var createBeaconRegion = function () {
 
-    //Wildcard_uuid permite detectar cualquier beacons. (Solo para Android)
-    // Podria haberse especificado un beacon en particular, indicando los respectivos datos pedidos más abajo
+    // Wildcard_uuid permite detectar cualquier beacons. (Solo para Android) Podria
+    // haberse especificado un beacon en particular, indicando los respectivos datos
+    // pedidos más abajo
 
     var uuid = cordova.plugins.locationManager.BeaconRegion.WILDCARD_UUID; //wildcard
     var major = undefined;
@@ -15,24 +16,23 @@ var createBeaconRegion = function () {
         .locationManager
         .BeaconRegion(identifier, uuid, major, minor);
 
-
     //Se debe indicar al delegate sobre que región se quiere trabajar
     return beaconRegion
 }
 
-var logToDom = function (message) {
-    var e = document.createElement('label');
-    e.innerText = message;
+var monitorShow = function (result) {
+    if (result.state) {
+        var div = document.createElement('div')
+        div.className = "center"
 
-    var br = document.createElement('br');
-    var br2 = document.createElement('br');
+        var h3 = document.createElement('h3')
+        h3.innerText = result.state
+        div.appendChild(h3)
 
-    var results = document.getElementById("results")
-    results.appendChild(e);
-    results.appendChild(br);
-    results.appendChild(br2);
-    window.scrollTo(0, window.document.height);
-
+        var results = document.getElementById("results")
+        results.innerHTML = ""
+        results.appendChild(div)
+    }
 };
 
 //A partir del uuid obtengo el nombre del beacon.
@@ -64,7 +64,6 @@ var toString = function (beacon) {
     return ('Color: <span class="dot ' + getName(beacon.uuid) + '"></span> (' + getName(beacon.uuid) + ') <br> UUID: ' + beacon.uuid + '<br> major: ' + beacon.major + '<br> minor: ' + beacon.minor + '<br> TX: ' + beacon.tx + '<br> Proximity: ' + beacon.proximity + '<br> rssi: ' + beacon.rssi + '<br> Accuracy: ' + beacon.accuracy)
 }
 
-
 //Accion a tomar ante la llegada de un nuevo paquete durante un Range
 var rangeShow = function (beacons) {
     var results = document.getElementById("results")
@@ -94,18 +93,12 @@ var delegateAction = function () {
     //Ante un Monitoreo
     delegate.didDetermineStateForRegion = function (pluginResult) {
 
-        logToDom('[DOM] didDetermineStateForRegion: ' + JSON.stringify(pluginResult));
+        monitorShow(pluginResult);
 
         cordova
             .plugins
             .locationManager
             .appendToDeviceLog('[DOM] didDetermineStateForRegion: ' + JSON.stringify(pluginResult));
-    };
-
-    delegate.didStartMonitoringForRegion = function (pluginResult) {
-        console.log('didStartMonitoringForRegion:', pluginResult);
-
-        logToDom('didStartMonitoringForRegion:' + JSON.stringify(pluginResult));
     };
 
     //Ante un Range
@@ -117,6 +110,6 @@ var delegateAction = function () {
         .plugins
         .locationManager
         .setDelegate(delegate);
-        
+
     return delegate
 }
