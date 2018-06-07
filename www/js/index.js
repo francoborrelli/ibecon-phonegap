@@ -16,6 +16,26 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+createButton = function(text, id, event){
+    var button = document.createElement('button')
+    button.innerText = text
+    button.className = "button"
+    button.id = id
+    button.addEventListener('click', event, false)
+    return button
+}
+refresh = function(){
+    document.getElementById("main").innerHTML = ""
+}
+showMain = function(){
+    refresh()
+    document.getElementById("title").innerText = "Beacons Finder"
+    var space = document.getElementById("main")
+    var button = createButton('Range Beacons', "range", showRange)
+    space.appendChild(button)
+    button = createButton('Monitor Beacons', "monitor", showMonitor)
+    space.appendChild(button)
+}
 var app = {
     // Application Constructor
     initialize: function() {
@@ -33,17 +53,6 @@ var app = {
     // The scope of 'this' is the event. In order to call the 'receivedEvent'
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
-        app.receivedEvent('deviceready');
+        showMain()
     },
-    // Update DOM on a Received Event
-    receivedEvent: function(id) {
-        var parentElement = document.getElementById(id);
-        var listeningElement = parentElement.querySelector('.listening');
-        var receivedElement = parentElement.querySelector('.received');
-
-        listeningElement.setAttribute('style', 'display:none;');
-        receivedElement.setAttribute('style', 'display:block;');
-
-        console.log('Received Event: ' + id);
-    }
 };
