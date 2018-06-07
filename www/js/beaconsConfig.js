@@ -1,8 +1,8 @@
 var createBeaconRegion = function () {
 
     // Wildcard_uuid permite detectar cualquier beacons. (Solo para Android) Podria
-    // haberse especificado un beacon en particular, indicando los respectivos datos
-    // pedidos más abajo
+    // haberse especificado un beacon en particular, indicando los respectivos
+    // datos pedidos más abajo
 
     var uuid = cordova.plugins.locationManager.BeaconRegion.WILDCARD_UUID; //wildcard
     var major = undefined;
@@ -36,7 +36,7 @@ var monitorShow = function (result) {
     h3.innerText = inside
         ? "Inside Region"
         : "Outside Region"
-        
+
     div.appendChild(h3)
 
     var results = document.getElementById("results")
@@ -101,13 +101,29 @@ var delegateAction = function () {
 
     //Ante un Monitoreo
     delegate.didDetermineStateForRegion = function (pluginResult) {
-
+        //Retorna dos posibles estados: CLRegionStateInside y CLRegionStateOutside
         monitorShow(pluginResult);
-
         cordova
             .plugins
             .locationManager
             .appendToDeviceLog('[DOM] didDetermineStateForRegion: ' + JSON.stringify(pluginResult));
+    };
+
+    //Otros eventos
+    delegate.didEnterRegion = function (result) {
+        if (result) {
+            console.log("ENTERED REGION: " + JSON.stringify(result));
+        }
+        // EjemploENTERED REGION:
+        // {"eventType":"didEnterRegion","region":{"identifier":"SomeIdentifier","typeNam
+        // e":"BeaconRegion"}}
+    };
+
+    delegate.didExitRegion = function (result) {
+        console.log("EXITED REGION: " + JSON.stringify(result));
+        // Ejemplo: EXITED REGION:
+        // {"eventType":"didExitRegion","region":{"identifier":"SomeIdentifier","typeName
+        // ":"BeaconRegion"}}
     };
 
     //Ante un Range

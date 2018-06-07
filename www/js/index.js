@@ -59,6 +59,7 @@ var app = {
 
         //Una vez que todo esta listo, genero el delegate y el beaconRegion
         delegate = delegateAction()
+        console.log(delegate)
         beaconRegion = createBeaconRegion()
     }
 };
