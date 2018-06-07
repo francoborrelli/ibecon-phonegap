@@ -53,6 +53,8 @@ phonegap build android --verbose
 
 Luego de que termine esto, encontraremos la apk en la siguiente ruta: _/platform/android/app/build/outputs/apk/debug/app-debug.apk_
 
+### Uso
+Asegurarse que los beacons tengan encendido el modo ibeacon. Para comprobarlo se debe acceder a la configuracion del beacon desde la app de estimote.
 
 # Referencias
 [Ibeacon - Plugin](https://github.com/petermetz/cordova-plugin-ibeacon)
