@@ -34,7 +34,7 @@ A partir del Ranging podemos obtener los siguientes datos:
 
 Hay 3 eventos a considerar: didEnterRegion, didExitRegion, didDetermineStateForRegion.
 
-Al salir de la región de señal de los beacons tarda aproximadamente 10 segundos en detectar dicha situación.
+Tarda aproximadamente 10 segundos en detectar que se salió de la región. Al entrar, la detección es instantanea.
 
 ## Pasos a seguir para probar la app
 
