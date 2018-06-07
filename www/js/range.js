@@ -1,3 +1,5 @@
+//Genero la pantalla de Range
+
 showRange = function () {
     refresh()
     document
@@ -29,10 +31,6 @@ startRanging = function () {
         .done();
 }
 
-goBack = function () {
-    refresh()
-    showMain()
-}
 
 stopRanging = function () {
     cordova
