@@ -4,7 +4,7 @@
 
 ### Introducción
 
-App hecha en Phonegap para la realización de pruebas utilizando los location estimote beacons. Este app utiliza el plugin de  [petermetz](https://github.com/petermetz), recomendado desde la página de Estimote.
+Aplicación hecha en Phonegap para la realización de pruebas utilizando los location estimote beacons. Este app utiliza el plugin de  [petermetz](https://github.com/petermetz), recomendado desde la página de Estimote.
 
 ### Funcionalidad
 El plugin cuenta con dos funcionalidades para Android:
@@ -37,6 +37,7 @@ A partir del Ranging podemos obtener los siguientes datos
 
 #### Agregar los siguientes plugins
 ```
+phonegap plugin add cordova-plugin-bluetooth-status
 phonegap plugin add cordova-plugin-statusbar
 phonegap plugin add https://github.com/petermetz/cordova-plugin-ibeacon.git 
 ```
@@ -46,7 +47,7 @@ phonegap plugin add https://github.com/petermetz/cordova-plugin-ibeacon.git
 phonegap platform add android
 ```
 
-### Buildear la App
+### Generar APK
 ```
 phonegap build android --verbose
 ```
