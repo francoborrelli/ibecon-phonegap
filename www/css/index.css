@@ -15,14 +15,29 @@ body{
     padding-top: 32px;
 }
 
+.dot {
+    border: 1px solid;
+    height: 10px;
+    width: 10px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
 }
 
+.dot.beetroot{
+    background-color: #a463be;
 }
 
+.dot.lemon{
+    background-color: #e9de07;
 }
 
+.dot.coconut{
+    background-color: white;
 }
 
+.dot.candy{
+    background-color: #f29ec3;
 }
 
 .button {
@@ -35,7 +50,6 @@ body{
     border: none;
     font-size: 20px;
 }
- 
 
 .button:first-of-type{
     background-color: #5c58a7;
@@ -43,4 +57,8 @@ body{
 
 .button:nth-of-type(2) {
     background: #e98ab4;
+}
+
+#results {
+    padding: 20px
 }
