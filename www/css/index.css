@@ -37,6 +37,10 @@ body{
 }
  
 
+.button:first-of-type{
+    background-color: #5c58a7;
 }
 
+.button:nth-of-type(2) {
+    background: #e98ab4;
 }
