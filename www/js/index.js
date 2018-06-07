@@ -16,6 +16,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+
 createButton = function(text, id, event){
     var button = document.createElement('button')
     button.innerText = text
@@ -24,9 +25,11 @@ createButton = function(text, id, event){
     button.addEventListener('click', event, false)
     return button
 }
+
 refresh = function(){
     document.getElementById("main").innerHTML = ""
 }
+
 showMain = function(){
     refresh()
     document.getElementById("title").innerText = "Beacons Finder"
@@ -36,6 +39,10 @@ showMain = function(){
     button = createButton('Monitor Beacons', "monitor", showMonitor)
     space.appendChild(button)
 }
+
+var delegate
+var beaconRegion
+
 var app = {
     // Application Constructor
     initialize: function() {
@@ -54,5 +61,7 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         showMain()
+        delegate = delegateAction()
+        beaconRegion = createBeaconRegion()
     },
 };
