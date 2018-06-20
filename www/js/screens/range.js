@@ -1,4 +1,5 @@
 class RangeScreen extends Screen {
+  
   getTitle() {
     return "Range Beacons";
   }

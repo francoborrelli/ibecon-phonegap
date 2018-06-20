@@ -24,7 +24,7 @@ class Screen {
     document.getElementById("main").innerHTML = "";
   }
 
-  setTitle(title) {
+  setTitle() {
     document.getElementById("title").innerText = this.getTitle();
   }
 
