@@ -37,20 +37,10 @@ class MonitorScreen extends Screen {
   }
 
   delegateStartMonitoring() {
-    cordova.plugins.locationManager
-      .startMonitoringForRegion(beaconRegion)
-      .fail(function(e) {
-        console.error(e);
-      })
-      .done();
+    delegator.startMonitoring();
   }
 
   delegateStopMonitoring() {
-    cordova.plugins.locationManager
-      .stopMonitoringForRegion(beaconRegion)
-      .fail(function(e) {
-        console.error(e);
-      })
-      .done();
+    delegator.stopMonitoring();
   }
 }

@@ -5,7 +5,6 @@ class RangeScreen extends Screen {
 
   setMenu() {
     var space = document.getElementById("main");
-
     var button = this.createButton("Stop Ranging", "stop", () =>
       this.stopRanging()
     );
@@ -13,8 +12,6 @@ class RangeScreen extends Screen {
     var div = document.createElement("div");
     div.id = "results";
     space.appendChild(div);
-
-    ranger.prepareToRange();
     this.delegateStartRanging();
   }
 
@@ -26,26 +23,16 @@ class RangeScreen extends Screen {
     this.delegateStopRanging();
 
     var button = document.getElementById("stop");
-    button.innerText = "back";
+    button.innerText = "Back";
     button.removeEventListener("click", this.stopRanging);
     button.addEventListener("click", this.goBack, false);
   }
 
   delegateStartRanging() {
-    cordova.plugins.locationManager
-      .startRangingBeaconsInRegion(beaconRegion)
-      .fail(function(e) {
-        console.error(e);
-      })
-      .done();
+    delegator.startRanging();
   }
 
   delegateStopRanging() {
-    cordova.plugins.locationManager
-      .stopRangingBeaconsInRegion(beaconRegion)
-      .fail(function(e) {
-        console.error(e);
-      })
-      .done();
+    delegator.stopRanging();
   }
 }
