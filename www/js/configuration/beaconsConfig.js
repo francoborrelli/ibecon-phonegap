@@ -21,78 +21,14 @@ var createBeaconRegion = function() {
   return beaconRegion;
 };
 
-var monitorShow = function(result) {
-  var inside = result.state === "CLRegionStateInside";
-
-  var image = document.getElementById("beaconImg");
-  if (inside) {
-    image.className = "";
-  } else {
-    image.className = "out";
-  }
-
-  var div = document.createElement("div");
-  div.className = "center";
-  var h3 = document.createElement("h3");
-  h3.innerText = inside ? "Inside Region" : "Outside Region";
-
-  div.appendChild(h3);
-
-  var results = document.getElementById("results");
-  results.innerHTML = "";
-  results.appendChild(div);
-};
-
-//A partir del uuid obtengo el nombre del beacon.
-var getName = function(uuid) {
-  switch (true) {
-    case uuid.toUpperCase().includes("CBF53FBE"):
-      return "beetroot";
-    case uuid.toUpperCase().includes("98D127CF"):
-      return "lemon";
-    case uuid.toUpperCase().includes("ADEFCF"):
-      return "coconut";
-    case uuid.toUpperCase().includes("BBBE733"):
-      return "candy";
-    default:
-      return "?";
-  }
-};
-
-// Format data
-var toString = function(beacon) {
-  return (
-    'Color: <span class="dot ' +
-    getName(beacon.uuid) +
-    '"></span> (' +
-    getName(beacon.uuid) +
-    ") <br> UUID: " +
-    beacon.uuid +
-    "<br> major: " +
-    beacon.major +
-    "<br> minor: " +
-    beacon.minor +
-    "<br> TX: " +
-    beacon.tx +
-    "<br> Proximity: " +
-    beacon.proximity +
-    "<br> rssi: " +
-    beacon.rssi +
-    "<br> Accuracy: " +
-    beacon.accuracy +
-    "<hr>"
-  );
-};
-
-
-var delegateAction = function(ranger) {
+var delegateAction = function(monitor, ranger) {
   //Al delegate se le indica que acciones tomar ante diferentes eventos.
   var delegate = new cordova.plugins.locationManager.Delegate();
 
   //Ante un Monitoreo
   delegate.didDetermineStateForRegion = function(pluginResult) {
     //Retorna dos posibles estados: CLRegionStateInside y CLRegionStateOutside
-    monitorShow(pluginResult);
+    monitor.show(pluginResult);
     cordova.plugins.locationManager.appendToDeviceLog(
       "[DOM] didDetermineStateForRegion: " + JSON.stringify(pluginResult)
     );
