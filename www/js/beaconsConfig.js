@@ -91,8 +91,6 @@ var beaconsArray = [];
 var rangeShow = function(beacons) {
   var results = document.getElementById("results");
 
-  console.log("beacons", beacons);
-
   beacons.forEach(beacon => {
     var moment = new Date();
     moment.setSeconds(moment.getSeconds() + 5);
@@ -117,6 +115,7 @@ var rangeShow = function(beacons) {
 
   removeBeacons();
 };
+
 
 var resetToRange = function() {
   beaconsArray = [];
