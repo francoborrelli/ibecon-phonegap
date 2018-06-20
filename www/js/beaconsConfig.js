@@ -84,67 +84,8 @@ var toString = function(beacon) {
   );
 };
 
-//Accion a tomar ante la llegada de un nuevo paquete durante un Range
 
-var beaconsArray = [];
-
-var rangeShow = function(beacons) {
-  var results = document.getElementById("results");
-
-  beacons.forEach(beacon => {
-    var moment = new Date();
-    moment.setSeconds(moment.getSeconds() + 5);
-    var result = { ...beacon, updated: moment };
-    var div = document.getElementById(beacon.uuid);
-    if (div) {
-      div.innerHTML = toString(beacon);
-      var index = beaconsArray.findIndex(x => x.uuid == beacon.uuid);
-      if (index !== -1) {
-        beaconsArray[index] = result;
-      } else {
-        beaconsArray.push(result);
-      }
-    } else {
-      beaconsArray.push(result);
-      div = document.createElement("div");
-      div.id = beacon.uuid;
-      div.innerHTML = toString(beacon);
-      results.appendChild(div);
-    }
-  });
-
-  removeBeacons();
-};
-
-
-var resetToRange = function() {
-  beaconsArray = [];
-};
-
-var indexOfBeacon = function(uuid) {
-  var beacon = beaconsArray.find(b => (b.uuid = uuid));
-  if (beacon) {
-    return beaconsArray.indexOf(beacon);
-  }
-  return -1;
-};
-
-var removeBeacons = function() {
-  var array = Array.from(beaconsArray);
-
-  beaconsArray.forEach(beacon => {
-    if (beacon.updated > new Date()) {
-      return;
-    }
-    var div = document.getElementById(beacon.uuid);
-    div.innerHTML = "";
-    array = array.filter(b => b.uuid !== beacon.uuid);
-  });
-
-  beaconsArray = array;
-};
-
-var delegateAction = function() {
+var delegateAction = function(ranger) {
   //Al delegate se le indica que acciones tomar ante diferentes eventos.
   var delegate = new cordova.plugins.locationManager.Delegate();
 
@@ -176,7 +117,7 @@ var delegateAction = function() {
 
   //Ante un Range
   delegate.didRangeBeaconsInRegion = function(pluginResult) {
-    rangeShow(pluginResult.beacons);
+    ranger.show(pluginResult.beacons);
   };
 
   cordova.plugins.locationManager.setDelegate(delegate);

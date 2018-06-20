@@ -33,6 +33,7 @@ showMain = function () {
 
 var delegate
 var beaconRegion
+var ranger
 
 var app = {
     initialize: function () {
@@ -56,9 +57,9 @@ var app = {
 
         //Generate menu
         showMain()
-
         //Una vez que todo esta listo, genero el delegate y el beaconRegion
-        delegate = delegateAction()
+        ranger = new IbeaconRanger();
+        delegate = delegateAction(ranger)
         beaconRegion = createBeaconRegion()
     }
 };

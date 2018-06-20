@@ -19,7 +19,7 @@ startRanging = function() {
   div.id = "results";
   space.appendChild(div);
 
-  resetToRange();
+  ranger.prepareToRange();
 
   cordova.plugins.locationManager
     .startRangingBeaconsInRegion(beaconRegion)
