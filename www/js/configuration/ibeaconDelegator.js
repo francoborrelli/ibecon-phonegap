@@ -8,41 +8,31 @@ class IbeaconDelegator extends Delegator {
   }
 
   startRanging() {
-    this._ranger.prepareToRange();
-
     cordova.plugins.locationManager
       .startRangingBeaconsInRegion(this._beaconsRegion)
-      .fail(function(e) {
-        console.error(e);
-      })
-      .done();
+      .fail(this.couldntStartRanging)
+      .done(this.didStartRanging);
   }
 
   stopRanging() {
     cordova.plugins.locationManager
       .stopRangingBeaconsInRegion(this._beaconsRegion)
-      .fail(function(e) {
-        console.error(e);
-      })
-      .done();
+      .fail(this.couldntStopRanging)
+      .done(this.didStopRanging);
   }
 
   startMonitoring() {
     cordova.plugins.locationManager
       .startMonitoringForRegion(this._beaconsRegion)
-      .fail(function(e) {
-        console.error(e);
-      })
-      .done();
+      .fail(this.couldntStartMonitoring)
+      .done(this.didStartMonitoring);
   }
 
   stopMonitoring() {
     cordova.plugins.locationManager
       .stopMonitoringForRegion(this._beaconsRegion)
-      .fail(function(e) {
-        console.error(e);
-      })
-      .done();
+      .fail(this.couldntStopMonitoring)
+      .done(this.didStopMonitoring);
   }
 
   createBeaconRegion() {
@@ -72,30 +62,29 @@ class IbeaconDelegator extends Delegator {
     var delegate = new cordova.plugins.locationManager.Delegate();
 
     //Ante un Monitoreo
-    delegate.didDetermineStateForRegion = pluginResult => {
+    delegate.didDetermineStateForRegion = result => {
       //Retorna dos posibles estados: CLRegionStateInside y CLRegionStateOutside
-      this._monitor.show(pluginResult);
-      cordova.plugins.locationManager.appendToDeviceLog(
-        "[DOM] didDetermineStateForRegion: " + JSON.stringify(pluginResult)
-      );
+      this.didDetermineStateForRegion(result);
+      this._monitor.show(result);
     };
 
     //Ante un Range
-    delegate.didRangeBeaconsInRegion = pluginResult => {
+    delegate.didRangeBeaconsInRegion = results => {
       this._ranger.show(pluginResult.beacons);
+      this.didRangeBeaconsInRegion(results);
     };
 
     //Otros eventos de monitoreo son: (No usados en esta aplicación)
     delegate.didEnterRegion = result => {
       if (result) {
-        console.log("ENTERED REGION: " + JSON.stringify(result));
+        this.didEnterRegion(result);
       }
       // EjemploENTERED REGION:
       // {"eventType":"didEnterRegion","region":{"identifier":"SomeIdentifier","typeNam
       // e":"BeaconRegion"}}
     };
     delegate.didExitRegion = result => {
-      console.log("EXITED REGION: " + JSON.stringify(result));
+      this.didExitRegion(result);
       // Ejemplo: EXITED REGION:
       // {"eventType":"didExitRegion","region":{"identifier":"SomeIdentifier","typeName
       // ":"BeaconRegion"}}
@@ -103,4 +92,29 @@ class IbeaconDelegator extends Delegator {
 
     cordova.plugins.locationManager.setDelegate(delegate);
   }
+
+  // hook methods
+  didStartRanging() {}
+
+  didStopRanging() {}
+
+  didStartMonitoring() {}
+
+  couldntStopMonitoring() {}
+
+  couldntStartRanging(e) {}
+
+  couldntStopRanging(e) {}
+
+  couldntStartMonitoring(e) {}
+
+  couldntStopMonitoring(e) {}
+
+  didDetermineStateForRegion(results) {}
+
+  didRangeBeaconsInRegion(results) {}
+
+  didEnterRegion(results) {}
+
+  didExitRegion(results) {}
 }
