@@ -1,12 +1,11 @@
-class IbeaconDelegator extends Delegator {
+class PhonegapIbeaconManager extends IbeaconManager {
   constructor() {
     super();
-    this._beaconsRegion = this.createBeaconRegion();
-    this._ranger = new IbeaconRanger();
-    this._monitor = new IbeaconMonitor();
+    this._beaconsRegion = this.setRegion();
     this.init();
   }
 
+  // Inicia la actividad de Ranging
   startRanging() {
     cordova.plugins.locationManager
       .startRangingBeaconsInRegion(this._beaconsRegion)
@@ -14,6 +13,7 @@ class IbeaconDelegator extends Delegator {
       .done(this.didStartRanging);
   }
 
+  // Detiene la actividad de Ranging
   stopRanging() {
     cordova.plugins.locationManager
       .stopRangingBeaconsInRegion(this._beaconsRegion)
@@ -21,6 +21,7 @@ class IbeaconDelegator extends Delegator {
       .done(this.didStopRanging);
   }
 
+  // Inicia la actividad de Monitoreo
   startMonitoring() {
     cordova.plugins.locationManager
       .startMonitoringForRegion(this._beaconsRegion)
@@ -28,6 +29,7 @@ class IbeaconDelegator extends Delegator {
       .done(this.didStartMonitoring);
   }
 
+  // Detiene la actividad de Monitoreo
   stopMonitoring() {
     cordova.plugins.locationManager
       .stopMonitoringForRegion(this._beaconsRegion)
@@ -35,23 +37,31 @@ class IbeaconDelegator extends Delegator {
       .done(this.didStopMonitoring);
   }
 
-  createBeaconRegion() {
+  requestWhenInUseAuthorization() {
+    cordova.plugins.locationManager.requestWhenInUseAuthorization();
+  }
+
+  requestAlwaysAuthorization() {
+    cordova.plugins.locationManager.requestAlwaysAuthorization();
+  }
+
+  // Define una una region a manejar
+  setRegion(uuid, id, minor, major) {
     // Wildcard_uuid permite detectar cualquier beacons. (Solo para Android) Podria
     // haberse especificado un beacon en particular, indicando los respectivos
     // datos pedidos más abajo
 
-    var uuid = cordova.plugins.locationManager.BeaconRegion.WILDCARD_UUID; //wildcard
-    var major = undefined;
-    var minor = undefined;
+    var beacon_uuid =
+      uuid || cordova.plugins.locationManager.BeaconRegion.WILDCARD_UUID; //wildcard
 
     //Puede ser cualquier nombre
-    var identifier = "SomeIdentifier";
+    var identifier = id || "SomeIdentifier";
 
     var beaconRegion = new cordova.plugins.locationManager.BeaconRegion(
       identifier,
-      uuid,
       major,
-      minor
+      minor,
+      beacon_uuid
     );
 
     //Se debe indicar al delegate sobre que región se quiere trabajar
@@ -65,12 +75,10 @@ class IbeaconDelegator extends Delegator {
     delegate.didDetermineStateForRegion = result => {
       //Retorna dos posibles estados: CLRegionStateInside y CLRegionStateOutside
       this.didDetermineStateForRegion(result);
-      this._monitor.show(result);
     };
 
     //Ante un Range
     delegate.didRangeBeaconsInRegion = results => {
-      this._ranger.show(pluginResult.beacons);
       this.didRangeBeaconsInRegion(results);
     };
 
@@ -79,12 +87,14 @@ class IbeaconDelegator extends Delegator {
       if (result) {
         this.didEnterRegion(result);
       }
-      // EjemploENTERED REGION:
+
+      // Ejemplo: ENTERED REGION:
       // {"eventType":"didEnterRegion","region":{"identifier":"SomeIdentifier","typeNam
       // e":"BeaconRegion"}}
     };
     delegate.didExitRegion = result => {
       this.didExitRegion(result);
+
       // Ejemplo: EXITED REGION:
       // {"eventType":"didExitRegion","region":{"identifier":"SomeIdentifier","typeName
       // ":"BeaconRegion"}}

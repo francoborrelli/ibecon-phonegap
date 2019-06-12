@@ -17,6 +17,6 @@ var app = {
     MainScreen.show();
 
     //Una vez que todo esta listo, genero el Delegator
-    delegator = new IbeaconDelegator();
+    delegator = new SpecificPhonegapIbeaconManager();
   }
 };
