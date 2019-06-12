@@ -24,7 +24,7 @@
     }
   },
   "dependencies": {
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^4.3.1",
     "com.unarin.cordova.beacon": "git+https://github.com/petermetz/cordova-plugin-ibeacon.git",
     "cordova-android": "^6.4.0",
     "cordova-plugin-battery-status": "^1.2.5",
