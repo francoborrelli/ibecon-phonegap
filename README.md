@@ -1,29 +1,33 @@
+<div  align="center">
+<img src="https://github.com/francoborrelli/ibecon-phonegap/assets/17908233/92a5ddbc-cf1c-4e80-891d-5af41abb23d1" height="300"/>
+</div>
+
+
 # Beacon Finder
 
-## Descripción
+![cordova](https://img.shields.io/badge/Apache%20Cordova-black?style=for-the-badge&logo=apachecordova&logoColor=white)
+![Android](https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white)
 
-### Introducción
+Application developed in Phonegap for conducting tests using Estimote beacons for location estimation. This app utilizes the [plugin](https://github.com/petermetz/cordova-plugin-ibeacon) created by [petermetz](https://github.com/petermetz), recommended on the Estimote website.
 
-Aplicación hecha en Phonegap para la realización de pruebas utilizando los location estimote beacons. Este app utiliza el plugin de [petermetz](https://github.com/petermetz), recomendado desde la página de Estimote.
 
-### Funcionalidad
+## Description
 
-El plugin cuenta con dos funcionalidades para Android:
+The plugin offers two functionalities for Android:
 
-1.  Ranging Beacons: Recibe constantemente paquetes bajo el protocolo de ibeacons. Permite obtener información sobre cada uno de los beacons que se encuentran al alcance. Más abajo se hablará en detalle de la información obtenida.
-2.  Monitoring Beacons: Permite detectar si nos encontramos o no dentro del radio o región de los beacons.
+1. `Ranging Beacons`: Constantly receives packets under the iBeacons protocol. It allows obtaining information about each of the beacons within range. Further details about the obtained information will be discussed below.
+2. `Monitoring Beacons`: Allows detecting whether we are inside or outside the range or region of the beacons.
+These functionalities can be performed by specifying which beacon we want to work with (its UUID is indicated), or opting for it to automatically detect nearby beacons.
 
-Estas funcionalidades se pueden realizar especificando sobre que beacon queremos trabajar (se indica su UUID), u optar para que detecte aquellos cercanos de forma automática.
+The `configBeacons.js` file shows in detail how these functionalities are achieved.
 
-En el archivo configBeacons.js se muestra en detalle como se logran estas funcionalidades.
+## Ranging
 
-### Ranging
+There is 1 event to consider: `didRangeBeaconsInRegion`.
 
-Hay 1 eventos a considerar: didRangeBeaconsInRegion.
+From the Ranging, we can obtain the following data:
 
-A partir del Ranging podemos obtener los siguientes datos:
-
-| Datos     |  Tipo   |
+| Field     |  Type   |
 | --------- | :-----: |
 | UUID      | String  |
 | Major     | Integer |
@@ -33,50 +37,57 @@ A partir del Ranging podemos obtener los siguientes datos:
 | RSSI      | Double  |
 | TX        | Double  |
 
-Adicionalmente se agrega el dato de distancia. El mismo se [calcula](https://gist.github.com/eklimcz/446b56c0cb9cfe61d575) gracias al valor de rssi y tx.
+Additionally, the distance data is included. It is [calculated](https://gist.github.com/eklimcz/446b56c0cb9cfe61d575) based on the values of RSSI and TX.
 
-### Monitoring
+## Monitoring
 
-Hay 3 eventos a considerar: didEnterRegion, didExitRegion, didDetermineStateForRegion.
+There are 3 events to consider:
 
-didDetermineStateForRegion posee dos posibles resultados: "CLRegionStateInside" y "CLRegionStateOutside"
+* `didEnterRegion`: Triggered when the device enters the specified region.
+* `didExitRegion`: Triggered when the device exits the specified region. It takes approximately 10 seconds to detect that the device has exited the region.
+* `didDetermineStateForRegion`: This event has two possible results: "CLRegionStateInside" and "CLRegionStateOutside". It indicates whether the device is inside or outside the specified region.
 
-Tarda aproximadamente 10 segundos en detectar que se salió de la región. Al entrar, la detección es instantanea.
+Upon entering the region, detection is instantaneous.
 
-## Pasos a seguir para probar la app
 
-### Preparación
+## Steps to test the app
 
-#### Agregar los siguientes plugins
+### Add the following plugins
 
-```
+```sh
 phonegap plugin add cordova-plugin-bluetooth-status
 phonegap plugin add cordova-plugin-statusbar
 phonegap plugin add https://github.com/petermetz/cordova-plugin-ibeacon.git
 ```
 
-#### Agregar plataforma Android
+## Steps to Follow to Test the App
 
-```
+### Preparation
+
+#### Add the following plugins
+
+#### Add Android platform
+
+```bash
 phonegap platform add android
 ```
 
-### Generar APK
+### Generate APK
 
-```
+```bash
 phonegap build android --verbose
 ```
 
-Luego de que termine esto, encontraremos la apk en la siguiente ruta:
+Once this is done, you will find the APK at the following path:
 
-```
+```bash
 /platform/android/app/build/outputs/apk/debug/app-debug.apk
 ```
 
-## Uso
+## Usage
 
-Asegurarse que los beacons tengan encendido el modo ibeacon. Para comprobarlo se debe acceder a la configuracion del beacon desde la app de estimote.
+Ensure that the beacons have the iBeacon mode turned on. To verify, access the beacon settings through the Estimote app.
 
-# Referencias
+# References
 
 [Ibeacon - Plugin](https://github.com/petermetz/cordova-plugin-ibeacon)
